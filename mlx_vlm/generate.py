@@ -23,11 +23,11 @@ DEFAULT_MODEL_PATH = "mlx-community/nanoLLaVA-1.5-8bit"
 DEFAULT_IMAGE = None
 DEFAULT_AUDIO = None
 DEFAULT_PROMPT = "What are these?"
-DEFAULT_MAX_TOKENS = 256
-DEFAULT_TEMPERATURE = 0.5
-DEFAULT_TOP_P = 1.0
+DEFAULT_MAX_TOKENS = 262144
+DEFAULT_TEMPERATURE = 0.7
+DEFAULT_TOP_P = 0.95
 DEFAULT_SEED = 0
-DEFAULT_QUANTIZED_KV_START = 5000
+DEFAULT_QUANTIZED_KV_START = 0
 
 
 def parse_arguments():
@@ -246,7 +246,7 @@ def generate_step(
     quantized_kv_start: int = 0,
     sampler: Optional[Callable[[mx.array], mx.array]] = None,
     logits_processors: Optional[List[Callable[[mx.array, mx.array], mx.array]]] = None,
-    prefill_step_size: Optional[int] = 2048,
+    prefill_step_size: Optional[int] = 512,
     **kwargs,
 ) -> Generator[Tuple[mx.array, mx.array], None, None]:
     """
@@ -279,7 +279,7 @@ def generate_step(
           logits. Default: ``None``.
         prefill_step_size (int): Number of tokens to process per prefill step.
           Chunked prefill processes prompts in smaller chunks to reduce peak
-          memory usage. Default: ``2048``.
+          memory usage. Default: ``512``.
 
     Yields:
         Generator[Tuple[mx.array, mx.array], None, None]: A generator producing
