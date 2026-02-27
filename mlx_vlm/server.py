@@ -475,7 +475,7 @@ class ModelsResponse(BaseModel):
 # OpenAI compatile endpoints
 
 
-@app.post("/responses")
+@app.post("/v1/responses")
 async def responses_endpoint(request: Request):
     """
     OpenAI-compatible endpoint for generating text based on a prompt and optional images.
@@ -810,7 +810,7 @@ async def responses_endpoint(request: Request):
 
 
 @app.post(
-    "/chat/completions", response_model=None
+    "/v1/chat/completions", response_model=None
 )  # Response model handled dynamically based on stream flag
 async def chat_completions_endpoint(request: ChatRequest):
     """
@@ -1010,7 +1010,7 @@ async def chat_completions_endpoint(request: ChatRequest):
         )
 
 
-@app.get("/models", response_model=ModelsResponse)
+@app.get("/v1/models", response_model=ModelsResponse)
 def models_endpoint():
     """
     Return list of locally downloaded MLX models.
@@ -1044,7 +1044,7 @@ def models_endpoint():
 # MLX_VLM API endpoints
 
 
-@app.get("/health")
+@app.get("/v1/health")
 async def health_check():
     """
     Check if the server is healthy and what model is loaded.
@@ -1056,7 +1056,7 @@ async def health_check():
     }
 
 
-@app.post("/unload")
+@app.post("/v1/unload")
 async def unload_model_endpoint():
     """
     Unload the currently loaded model from memory.
